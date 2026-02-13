@@ -44,7 +44,8 @@ const HeartFrame = ({ src, label }: { src: string; label?: string }) => (
 );
 
 const ALLOWED_NAMES = ["bubu", "celia"];
-const PRESET_IMAGE = `${import.meta.env.BASE_URL}dudu.webp`;
+const PRESET_IMAGE_DUDU = `${import.meta.env.BASE_URL}dudu.webp`;
+const PRESET_IMAGE_BUBU = `${import.meta.env.BASE_URL}bubu.png`;
 
 const NameEntry = ({
   onContinue,
@@ -87,13 +88,27 @@ const NameEntry = ({
       </h1>
       <p className="text-lg text-muted-foreground">💌 Valentine's Day</p>
       <div className="flex items-center gap-2 md:gap-4">
-        <HeartFrame src={PRESET_IMAGE} label="Me - Dudu 💖" />
+        <div className="flex flex-col items-center gap-2">
+          <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
+            <img src={PRESET_IMAGE_DUDU} alt="Me" className="w-full h-full object-cover" />
+          </div>
+          <p className="text-sm text-muted-foreground font-medium">Me - Dudu 💖</p>
+        </div>
         <span className="text-4xl md:text-6xl animate-pulse">❤️</span>
         <div
-          className="cursor-pointer group"
+          className="cursor-pointer group flex flex-col items-center gap-2"
           onClick={() => fileRef.current?.click()}
         >
-          <HeartFrame src={image} label={image ? "My Love 💕" : "Tap to add 💕"} />
+          <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
+            {image ? (
+              <img src={image} alt="Photo" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-secondary flex items-center justify-center">
+                <span className="text-5xl">📷</span>
+              </div>
+            )}
+          </div>
+          <p className="text-sm text-muted-foreground font-medium">{image ? "My Love 💕" : "Tap to change 💕"}</p>
           <input
             ref={fileRef}
             type="file"
@@ -168,9 +183,13 @@ const TheQuestion = ({
 
       {/* Dual photos */}
       <div className="flex items-center gap-2 md:gap-4">
-        <HeartFrame src={PRESET_IMAGE} />
+        <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
+          <img src={PRESET_IMAGE_DUDU} alt="Me" className="w-full h-full object-cover" />
+        </div>
         <span className="text-4xl md:text-5xl animate-pulse">❤️</span>
-        <HeartFrame src={image} />
+        <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
+          <img src={image || PRESET_IMAGE_BUBU} alt="My Valentine" className="w-full h-full object-cover" />
+        </div>
       </div>
 
       <div className="flex gap-6 mt-4 items-center">
@@ -221,6 +240,8 @@ const TheQuestion = ({
 
 // Step 3: Celebration
 const Celebration = ({ name, image }: { name: string; image: string }) => {
+  const CALENDAR_LINK = "https://calendar.app.google/Db3tBTP6DzjCrmfKA";
+
   useEffect(() => {
     const end = Date.now() + 4000;
     const colors = ["#e91e63", "#ff4081", "#f48fb1", "#ff80ab", "#ffd54f"];
@@ -255,32 +276,36 @@ const Celebration = ({ name, image }: { name: string; image: string }) => {
 
       <div className="flex items-center gap-2 md:gap-6">
         <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
-          <img src={PRESET_IMAGE} alt="Me" className="w-full h-full object-cover" />
+          <img src={PRESET_IMAGE_DUDU} alt="Me" className="w-full h-full object-cover" />
         </div>
         <span 
           className="text-5xl md:text-7xl" 
           style={{ 
             animation: "pulse-glow 2s infinite, wiggle 1s ease-in-out infinite",
             display: "inline-block",
-            backgroundColor: "transparent"  // Remove any background
+            backgroundColor: "transparent"
           }}
         >
           ❤️
         </span>
-        {image ? (
-          <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
-            <img src={image} alt="My Valentine" className="w-full h-full object-cover" />
-          </div>
-        ) : (
-          <div className="rounded-3xl border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56 bg-secondary flex items-center justify-center">
-            <span className="text-5xl">💕</span>
-          </div>
-        )}
+        <div className="rounded-3xl overflow-hidden border-4 border-primary/40 shadow-2xl w-40 h-40 md:w-56 md:h-56">
+          <img src={image || PRESET_IMAGE_BUBU} alt="My Valentine" className="w-full h-full object-cover" />
+        </div>
       </div>
 
       <p className="font-script text-3xl md:text-4xl text-primary/80 mt-4">
         See you in 14th February for the Valentine's Day! 💝
       </p>
+
+      <Button
+        asChild
+        size="lg"
+        className="text-lg px-10 rounded-full shadow-lg"
+      >
+        <a href={CALENDAR_LINK} target="_blank" rel="noopener noreferrer">
+          Add to Calendar 📅
+        </a>
+      </Button>
     </div>
   );
 };
