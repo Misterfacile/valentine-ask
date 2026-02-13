@@ -44,7 +44,7 @@ const HeartFrame = ({ src, label }: { src: string; label?: string }) => (
 );
 
 const ALLOWED_NAMES = ["bubu", "celia"];
-const PRESET_IMAGE = "/dudu.webp";
+const PRESET_IMAGE = `${import.meta.env.BASE_URL}dudu.webp`;
 
 const NameEntry = ({
   onContinue,
